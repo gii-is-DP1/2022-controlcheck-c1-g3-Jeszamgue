@@ -4,7 +4,7 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="petclinic" tagdir="/WEB-INF/tags" %>
 
-<petclinic:layout pageName="owners">
+<petclinic:layout pageName="recoveryRooms">
     <jsp:attribute name="customScript">
         <script>
             $(function () {
@@ -14,7 +14,7 @@
     </jsp:attribute>
     <jsp:body>
         <h2>
-            Recovery Room
+            <c:if test="${recoveryRoom['new']}">New </c:if> Recovery Room
         </h2>
         <form:form modelAttribute="recoveryRoom"
                    class="form-horizontal">
@@ -24,14 +24,24 @@
                 <petclinic:inputField label="Room size in m2" name="size"/>
                 <petclinic:checkboxField label="Secure room?" name="secure"/>
                 <div class="control-group">
-                    <petclinic:selectField name="roomType" label="Room type " names="${types}" size="5"/>
+                    <petclinic:selectField name="roomType" label="Room type " names="${roomtypes}" size="5"/>
                 </div>
             </div>
             <div class="form-group">
                 <div class="col-sm-offset-2 col-sm-10">
-                    <button class="btn btn-default" type="submit">Update Room</button>
+                    <c:choose>
+                        <c:when test="${recoveryRoom['new']}">
+                            <button class="btn btn-default" type="submit">Add Recovery Room</button>
+                        </c:when>
+                        <c:otherwise>
+                            <button class="btn btn-default" type="submit">Update Recovery Room</button>
+                        </c:otherwise>
+                    </c:choose>
                 </div>
             </div>
+        </form:form>
+        <c:if test="${!recoveryRoom['new']}">
+        </c:if>
         </form:form>
     </jsp:body>
 </petclinic:layout>
